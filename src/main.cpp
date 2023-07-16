@@ -3,6 +3,7 @@
 
 #include "src/types.h"
 #include "rmqs/rmq.h"
+#include "predecessor/predecessor.h"
 #include "rmqs/naive/naive_rmq.h"
 
 int main(int argc, char** argv){
@@ -11,7 +12,7 @@ int main(int argc, char** argv){
     return -1;
   }
   if (strcmp("pd",argv[1]) == 0) {
-    
+    pd::run(argv[2], argv[3]);
   } else if (strcmp("rmq",argv[1]) == 0) {
     rmq::run(argv[2], argv[3]);
   } else {

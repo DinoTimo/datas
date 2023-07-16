@@ -6,17 +6,18 @@
 #include "src/types.h"
 #include "src/pretty_printer.h"
 
+#pragma once
 
-namespace rmq {
+namespace pd {
 
-  class Rmq_input_parser {
+  class Pd_input_parser {
   private:
     std::vector<Element> A;
     Index n;
-    std::vector<std::pair<Index, Index>> requests;
+    std::vector<Element> requests;
 
   public:
-    Rmq_input_parser() : A(0), n(0), requests(0) { }
+    Pd_input_parser() : A(0), n(0), requests(0) { }
 
     const std::vector<Element>& get_array() const {
       return A;
@@ -26,10 +27,9 @@ namespace rmq {
       return n;
     } 
 
-    const std::vector<std::pair<Index, Index>>& get_requests() const {
+    const std::vector<Element>& get_requests() const {
       return requests;
     }
-
 
     void read_input(std::string path) {
       std::ifstream input(path);
@@ -44,10 +44,8 @@ namespace rmq {
       }
       
       while (getline(input, line)) {
-        int comma_pos = line.find(",");
-        Index a = std::stoi(line.substr(0, comma_pos));
-        Index b = std::stoi(line.substr(comma_pos + 1));
-        requests.push_back(std::pair<Index, Index>{a, b});
+        Element request = std::stoull(line);
+        requests.push_back(request);
       }
     }
 

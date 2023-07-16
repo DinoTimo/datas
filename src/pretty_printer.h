@@ -3,6 +3,8 @@
 #include <vector>
 #include <chrono>
 
+#pragma once
+
 namespace Log {
   namespace pretty  {
     size_t title_width = 50;
@@ -17,7 +19,7 @@ namespace Log {
 
     void print_interval(double interval, std::string title) {
       std::cerr << "  " << title << " duration: ";
-      for (int i = 2 + title.length() + 11; i < duration_width; i++) {
+      for (int i = 2 + title.length() + 11; i < duration_width; i++) { // " duration: ".lenth() = 11
         std::cerr << " ";
       }
       std::cerr << interval << "s" <<std::endl;

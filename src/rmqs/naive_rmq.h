@@ -10,7 +10,7 @@
 namespace rmq {
   class Naive_rmq : public Rmq_answerer {
     public:
-      Naive_rmq(const std::vector<Rmq_Element>& in) : 
+      Naive_rmq(const std::vector<Element>& in) : 
         input(in),
         n(in.size()),
         indices(n * n) { }
@@ -29,11 +29,11 @@ namespace rmq {
       }
 
       int get_space_usage() const {
-        return indices.size() * sizeof(Index) * 8;
+        return indices.size() * sizeof(Index) * 8 + n * sizeof(Element) * 8;
       }
 
     public:
-      Index brute_force_rmq(const std::vector<Rmq_Element>& in, const Index& start, const Index& end) const {
+      Index brute_force_rmq(const std::vector<Element>& in, const Index& start, const Index& end) const {
         Index min_index = start;
         int min = in.at(min_index);
         for (Index i = start + 1; i <= end; i++) {
@@ -46,14 +46,14 @@ namespace rmq {
       }
 
     private:
-      const std::vector<Rmq_Element> input;
+      const std::vector<Element> input;
       const Index n;
       std::vector<Index> indices;
   };
 
   class No_Storage_rmq : public Rmq_answerer {
     public:
-      No_Storage_rmq(const std::vector<Rmq_Element>& in) : 
+      No_Storage_rmq(const std::vector<Element>& in) : 
         input(in) { }
 
       void init() {  }
@@ -71,7 +71,11 @@ namespace rmq {
         return min_index;
       }
 
+      int get_space_usage() const {
+        return input.size() * sizeof(Element) * 8;
+      }
+
     private:
-      const std::vector<Rmq_Element> input;
+      const std::vector<Element> input;
   };
 }
