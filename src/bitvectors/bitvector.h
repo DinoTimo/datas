@@ -28,6 +28,8 @@ namespace bv {
       
         Word word = 0;
         size_t word_id = 0;
+        //fill up the array from left to right
+        //each word i is constructed by adding each bit and then shifting left repeatedly.
         for (int i = 0; i < input.size(); i++) {
           word += input[i];
           bool new_word_reached = (i > 0 && i % len == len - 1) || i == input.size() - 1;
