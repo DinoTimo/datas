@@ -5,7 +5,7 @@
 #include <sstream>
 
 #include "rmq_input_parser.h"
-#include "naive/naive_rmq.h"
+#include "naive_rmq.h"
 #include "src/utils.h"
 
 #pragma once

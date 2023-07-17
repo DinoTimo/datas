@@ -59,7 +59,9 @@ namespace pd {
     out_file.open(out);
     for (int i = 0; i < input_parser.get_requests().size(); i++) {
       out_file << pd_struc.get_answers()[i] << "\n";
-      std::cerr << "pred(" << input_parser.get_requests()[i] << ") = " << pd_struc.get_answers()[i] << "\n";
+      if (i < 5) {
+       std::cerr << "pred(" << input_parser.get_requests()[i] << ") = " << pd_struc.get_answers()[i] << "\n";
+      }
     }
     out_file.close();
     std::cout << result_line.str() << std::endl;

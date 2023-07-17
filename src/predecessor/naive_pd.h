@@ -21,6 +21,7 @@ namespace pd {
         if (i <= 0) {
           return -1;
         }
+        assert(input[i - 1] <= el, "wrong pd answer");
         return input[i - 1];
       }
 
