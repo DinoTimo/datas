@@ -16,4 +16,6 @@ Execute Datas
    On std::cerr some debug information is printed and some example requests and answers shown.
    On std::cout the result line, and only the result line is printed.
 
+# Additional Info
+The result line lists space usage. This is computed faithfully, but not really properly measuring mallocs or by reaching out to /proc/self, but by calculating the sizes of arrys by its own. This is error prone.
 
