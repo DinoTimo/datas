@@ -4,12 +4,13 @@
 #include <cmath>
 
 #include "src/types.h"
+#include "src/utils.h"
 
 #pragma once
 
 namespace bv {
-  constexpr size_t len = 8; //bits in a word
-  using Word = uint8_t;
+  constexpr size_t len = 64; //bits in a word
+  using Word = uint64_t;
 
   class Bitvector {
     private:
@@ -21,25 +22,9 @@ namespace bv {
       std::vector<int> blocks;
     
     public:
-      void init() {
-        return;
-        // not rly implemented for now
-        size_t count = 0;
-        for (Word word : bit_vector) {
-          for (int i = 0; i < len; i++) {
-            super_blocks[count / super_block_size] += (word >> (len - 1 - i)) & 1;
-            count++;
-          }
-        }
-      }
-
       Bitvector(std::vector<bool> input) : 
-        n(input.size()),
-        bit_vector((n + len - 1)/ len),
-        block_size(std::log(n) / 2),
-        super_block_size(block_size * block_size),
-        super_blocks(n / super_block_size),
-        blocks(n / block_size) {
+          n(input.size()),
+          bit_vector((n + len - 1)/ len) {
       
         Word word = 0;
         size_t word_id = 0;
@@ -50,12 +35,32 @@ namespace bv {
             word = word << 1;
           }
           if (new_word_reached) {
-            // it is possible that the last word is incomplete, but idc at this point about this, then weird behaviour ensues
             bit_vector[word_id] = word;
             word_id++;
             word = 0;
           }
         }
+      }
+
+      Bitvector(Index size) : 
+          n(size),
+          bit_vector((n + len - 1)/ len, 0) {
+      
+      }
+
+      void init() {
+        return;
+        // not rly implemented for now, i fucked it up, sorry
+        // rank and select is calculated from scratch each time.
+        /*
+        size_t count = 0;
+        for (Word word : bit_vector) {
+          for (int i = 0; i < len; i++) {
+            super_blocks[count / super_block_size] += (word >> (len - 1 - i)) & 1;
+            count++;
+          }
+        }
+        */
       }
 
       bool get(Index i) const {
@@ -64,9 +69,29 @@ namespace bv {
         return bit;
       }
 
+      void set(Index i, bool bit) {
+        Word word = bit_vector[i / len];
+        Index bit_index = i % len;
+        if (bit) {
+          Word mask = 1;
+          mask = mask << (len - 1 - bit_index);
+          word = word | mask;
+          bit_vector[i / len] = word;
+        } else {
+          Word mask = 1;
+          mask = mask << (len - 1 - bit_index);
+          mask = ~mask;
+          word = word & mask;
+          bit_vector[i / len] = word;
+        }
+      }
+
       int select(bool bit, int occs) const {
-        if (occs <= 0) {
+        if (occs < 0) {
           return -1;
+        }
+        if (occs == 0) {
+          return 0;
         }
         int bits_found = 0;
         int word_id = 0;
@@ -98,17 +123,5 @@ namespace bv {
         }
         return ones_found;
       }
-
-      void print() const {
-        for (Word word : bit_vector) {
-          for (int i = 0; i < len; i++) {
-            bool bit = ((word >> (len - 1 - i)) & 1);
-            std::cerr << bit;
-          }
-          std::cerr << ",";
-        }
-        std::cerr << std::endl;        
-      }
-
   };
 }

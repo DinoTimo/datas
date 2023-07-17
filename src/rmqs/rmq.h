@@ -6,6 +6,7 @@
 
 #include "rmq_input_parser.h"
 #include "naive_rmq.h"
+#include "nlogn_rmq.h"
 #include "src/utils.h"
 
 #pragma once
@@ -26,7 +27,8 @@ namespace rmq {
     //DECIDE HERE WHICH RMQ DATA STRUCTURE TO USE
 
     Naive_rmq rmq_struc(input_parser.get_array());
- //   No_Storage_rmq rmq_struc(input_parser.get_array());
+
+    //Nlogn_rmq rmq_struc(input_parser.get_array());
 
     //begin setup
     Log::pretty::print_banner("START PRECALCULATION");

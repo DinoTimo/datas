@@ -32,19 +32,19 @@ namespace Log {
     void printTitle(std::string title) {
       size_t title_len = title.size();
       if (title_len >= title_width) {
-        std::cout << title << "\n";
+        std::cerr << title << "\n";
         return;
       }
 
       size_t i = 0;
       for (; i < (title_width - title_len + 1) / 2; i++) {
-        std::cout << "-";
+        std::cerr << "-";
       } 
-      std::cout << title;
+      std::cerr << title;
       for (; i < (title_width - title_len); i++) {
-        std::cout << "-";
+        std::cerr << "-";
       }
-      std::cout << "\n";
+      std::cerr << "\n";
     }
 
     void print_banner(std::string title) {

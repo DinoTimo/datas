@@ -24,7 +24,6 @@ class Timer {
 
     double interval() {
       time now = std::chrono::system_clock::now();
-      assert(!q.empty(), "error in timer during interval");
       std::chrono::duration<double> diff = now - q[q.size() - 1];
       q.push_back(now);
       return diff.count();
@@ -32,7 +31,6 @@ class Timer {
 
     double end() {
       time after = std::chrono::system_clock::now();
-      assert(!q.empty(), "error in timer during end");
       std::chrono::duration<double> elapsed_seconds = after - q[0];
       std::cerr << "Total time: " << elapsed_seconds.count() << "s\n";
       return elapsed_seconds.count();
